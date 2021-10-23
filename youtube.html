@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube</title>
+    <style>
+        #videos {
+            display: grid;
+            grid-template-columns: repeat(4,20%);
+            grid-gap: 5%;
+        }
+        ul {
+            width: 100%;
+        }
+        li{
+            display: inline-block;
+            padding: 8px;   
+            vertical-align: top;
+            
+          
+        }
+        .yo{
+            width: 100%;
+            height: 100px;
+            margin-top: -30px;
+            float: left;
+        }
+        button{
+            height: 25px;
+        }
+
+        #cont2{
+            margin: auto;
+        }
+    
+      
+        body {font-family: Arial, Helvetica, sans-serif;}
+        * {box-sizing: border-box;}
+
+
+        input[type=text], input[type=password],input[type=number],input[type=email] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+        }
+
+
+        input[type=text]:focus, input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+        }
+
+        button,.a {
+        margin: 8px 0;
+        cursor: pointer;
+        width: 50%;
+    
+        }
+
+        button:hover {
+        opacity:1;
+        }
+
+        .cancelbtn {
+        padding: 14px 20px;
+        background-color: #f44336;
+        }
+
+
+        .cancelbtn, .signupbtn {
+        float: left;
+        width: 50%;
+        }
+
+
+        .container {
+        padding: 18px;
+        }
+
+
+        .modal {
+        display: none; 
+        position: fixed;
+        z-index: 1; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: #474e5d;
+        padding-top: 50px;
+        }
+
+
+        .modal-content {
+        background-color: #fefefe; 
+        border: 1px solid #888;
+        width: 50%; 
+        margin-left: 30%;
+       
+
+        }
+
+
+        hr {
+        border: 1px solid #f1f1f1;
+        margin-bottom: 25px;
+        }
+        
+
+        .close {
+        position: absolute;
+        right: 35px;
+        top: 15px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #f1f1f1;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: #f44336;
+        cursor: pointer;
+        }
+
+
+        .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+        @media screen and (max-width: 300px) {
+        .cancelbtn, .signupbtn {
+            width: 100%;
+        }
+      
+        }
+
+    </style>
+</head>
+<body>
+    
+        <ul>
+            <li><img class="yo" src="data:image/png;base64,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"/></li>
+                    
+            <li><input style="width: 400px;height: 20px;" type="text" id="query" placeholder="Search"></li>
+    
+            <li><button style="width: 100%;" onclick="searchVideos()">◯</button></li>
+
+            <li><button style="width: 100%;" onclick="document.getElementById('id01').style.display='block';" >Sign Up</button></li>
+
+            
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal"></span>
+            <form class="modal-content"onsubmit="Signup(event)" id="signup-form">
+              <div class="container">
+                <h3>Sign Up</h3>
+                <hr>
+         
+                   <label for="name"><b>Name</b></label>
+                    <input type="text" placeholder="Enter Name" id="name" name="email" required>
+
+                    <label for="email"><b>Email ID</b></label>
+                    <input type="email" placeholder="Enter Email" id="email" name="email" required>
+
+                    <label for="name"><b>User Name</b></label>
+                    <input type="text" placeholder="Enter Name" id="username" name="email" required>
+
+                    <label for="psw-repeat"><b>Mobile</b></label>
+                    <input type="number" placeholder="Mobile No." id="mobile" name="psw-repeat" required>
+
+                    <label for="name"><b>Description</b></label>
+                    <input type="text" placeholder="Description" id="description" id="username" name="email" required>
+
+                
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password"  id="password" placeholder="Enter Password" name="psw" required>
+                    
+               
+                    <button ><a href="login.html">Log In</a></button>
+                    <input style="height: 32px;background-color: green;color: white;" class="a" type="submit"/>
+                
+
+                    
+            
+              </div>
+            </form>
+          </div>
+
+            <li style="opacity: 0.9s;background-color:white;"><img style="width: 30px;margin-top: 4px;margin-left: 44%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQPrvDwVG49SBYvvDQI0IqEFnuPr-iMGT7UA&usqp=CAU"/><span style="font-size: 30px;margin-left: 25%;margin-bottom: 180px;background-color: violet;" id="names"></span></li>
+        </ul>
+    
+    <div id="videos"></div>
+    
+</body>
+</html>
+<script>
+
+    let videos = document.getElementById("videos")
+
+    //AIzaSyAT-RMgP5JF1nwront-3UWUfIFJUUl6DPY
+    //AIzaSyDT5OpDuii1tk_phPmjBYs2iqFScoUwP00
+    //https://youtube.googleapis.com/youtube/v3/search?q=csk&type=video&key=[YOUR_API_KEY]
+
+    async function searchVideos(){
+        let query = document.getElementById("query").value;
+        let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${query}&type=video&key=AIzaSyDT5OpDuii1tk_phPmjBYs2iqFScoUwP00&maxResults=20`)
+        let data = await res.json()
+        console.log(data);
+
+        appendVideos(data.items)
+    }
+
+    searchVideos();
+
+    function appendVideos(video_data){
+        videos.innerHTML = null;
+
+        video_data.forEach(({ id:{videoId} })=>{
+            
+            let div = document.createElement("div");
+
+            div.innerHTML = `<iframe width="270" height="210" src="https://www.youtube.com/embed/${videoId}"title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            div.style.marginTop = "20px"
+            videos.append(div)
+        });
+
+
+    }
+
+
+    
+    function Signup(e){
+        e.preventDefault()
+
+        let form = document.getElementById("signup-form");
+
+        let user_data = {
+            name:form.name.value,
+            email:form.email.value,
+            password:form.password.value,
+            username:form.username.value,
+            mobile:form.mobile.value,
+            description:form.description.value,
+        };
+
+        user_data = JSON.stringify(user_data);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register",{
+
+            method:'POST',
+            body:user_data,
+
+            headers:{
+                'Content-Type':"application/json"
+            },
+        })
+        .then((res)=>{
+            return res.json()
+
+        })
+        .then((res)=>{
+            console.log(res);
+
+        })
+        .catch((err)=>{
+            console.log(err);
+
+        })
+
+    }
+
+    function Login(e){
+        e.preventDefault()
+
+        let form = document.getElementById("login-form");
+
+        let user_data = {
+            password:form.password.value,
+            username:form.username.value,
+    
+        };
+
+        let data_to_send = JSON.stringify(user_data);
+        console.log(data_to_send);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login",{
+
+            method:'POST',
+            body:data_to_send,
+
+            headers:{
+                'Content-Type':"application/json"
+            },
+        })
+
+        .then((res)=>{
+            return res.json()
+        })
+        .then((res)=>{
+            console.log(res);
+            fetchmyData(user_data.username,res.token)
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+
+        
+
+    }
+
+    function fetchmyData (username,token) {
+
+        fetch(`https://masai-api-mocker.herokuapp.com/user/${username}`,{
+
+            headers:{
+                'Content-Type':"application/json",
+
+                Authorization:`Bearer ${token}`,
+            },
+
+        })
+
+        .then((res)=>{
+            return res.json()
+        })
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
+
+    let doc = document.getElementById('names')
+    let userData = JSON.parse(localStorage.getItem('user_data'))
+    console.log(userData.length)
+    doc.innerText = null;
+    doc.append(userData[userData.length-1])
+
+
+
+
+
+
+</script>
