@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation App</title>
+    <style>
+        #cont1{
+            border: 1px solid black;
+            width: 25%;
+            height: 400px;
+            display: inline-block;
+            margin-left: 25%;
+            background-color: #F3F3F3;
+        }
+        #cont2{
+            border: 1px solid black;
+            width: 25%;
+            height: 400px;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #F3F3F3;
+        }
+        input{
+            width: 70%;
+            border: none;
+            border-bottom: 1px solid gray;
+            text-align: center;
+            margin-left: 5%;
+            margin-top: 4%;
+            height: 7%;
+            background-color: #F3F3F3;
+        }
+        button{
+            width: 22%;
+            text-align: center;
+            border: none;
+            background-color:#059862 ;
+            color: #FFFFFF;
+            height: 7%;
+        }
+        select{
+            border: none;
+            border-bottom: gray 1px solid;
+            background-color: #F3F3F3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;background-color: #FB8903;color: #FFFFFF;">
+        Translate App
+    </h1>
+    <div id="cont1">
+        <h4 style="text-align: center;background-color:#FB8903 ;color: #FFFFFF;">Translate From</h4>
+        <select style="margin-left: 5%;" id="source">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="es">Spanish</option>
+            <option value="ge">German</option>
+            <option value="auto">Auto Detect</option>
+        </select>
+        <input type="text" id="search" placeholder="Translate Here"/>
+        <button onclick="startSearch()">Translate</button>
+    </div>
+    <div id="cont2">
+        <h4 style="text-align: center;background-color:#FB8903 ;color: #FFFFFF;">Translate To</h4>
+        <select style="margin-left: 5%;" id="trans">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="es">Spanish</option>
+            <option value="ge">German</option>
+            <option value="ja">Japanese</option>
+        </select>
+
+    </div>
+</body>
+</html>
+<script>
+    let cont = document.getElementById('cont2')
+    
+    async function startSearch() {
+        let get = document.getElementById("search").value;
+        let set = document.getElementById("source").value;
+        let trans = document.getElementById("trans").value;
+        const res =await fetch(`https://libretranslate.de/translate`,{
+        method: "POST",
+	    body: JSON.stringify({   
+        q:`${get}`,  
+		source:`${set}`,
+		target: `${trans}`
+
+    }),
+       headers: {
+        "Content-Type": "application/json"
+       }
+    });
+        
+    let data = await res.json()
+    console.log(data)
+    start(data)
+    }
+    
+    
+    function start(data){
+            let div = document.createElement('div')
+            let box = document.createElement('h1')
+            box.innerText = data.translatedText;
+            box.style.marginLeft="10%"
+            div.append(box)
+            cont.append(div)
+    }
+</script>
